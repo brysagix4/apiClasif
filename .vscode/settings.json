@@ -1,0 +1,5 @@
+{
+    "appService.showBuildDuringDeployPrompt": false,
+    "appService.defaultWebAppToDeploy": "/subscriptions/f153e93f-cdf0-440a-ab8b-b2ef7d87450b/resourceGroups/clasificadorproteccion_group/providers/Microsoft.Web/sites/clasificadorproteccion",
+    "appService.deploySubpath": "."
+}
