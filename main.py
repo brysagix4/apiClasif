@@ -6,11 +6,20 @@ import numpy as np
 
 app = FastAPI()
 
-modelo5 = joblib.load("forest.joblib")
-modelo6 = joblib.load("forest.joblib")
-modelo9 = joblib.load("forest.joblib")
-modelo12 = joblib.load("forest.joblib")
-modelo15 = joblib.load("forest.joblib")
+clasificador_modelo5 = joblib.load("forest.joblib")
+clasificador_modelo6 = joblib.load("forest.joblib")
+clasificador_modelo9 = joblib.load("forest.joblib")
+clasificador_modelo12 = joblib.load("forest.joblib")
+clasificador_modelo15 = joblib.load("forest.joblib")
+
+
+predictor_modelo5 = joblib.load("forest.joblib")
+predictor_modelo6 = joblib.load("forest.joblib")
+predictor_modelo9 = joblib.load("forest.joblib")
+predictor_modelo12 = joblib.load("forest.joblib")
+predictor_modelo15 = joblib.load("forest.joblib")
+
+
 
 # ==========================================
 # DATOS DE ENTRADA PARA PREPARAR
@@ -195,14 +204,14 @@ def preparar(datos: DatosPreparacion):
 def inicio(sexo: int, edad_continua: float,comuna_raw:int):
 
     new_data_point_np = np.array([[sexo, edad_continua, comuna_raw, 0, 0, 9, 1.0]])
-    prediction_np = modelo.predict(new_data_point_np)
+    prediction_np = clasificador_modelo5.predict(new_data_point_np)
 
     return {
         "mensaje": prediction_np[0]
     }
 
 
-@app.post("/prueba_cinco")
+@app.post("/clasificador_prueba_cinco")
 def inicio(sexo: int, edad_continua: int, comuna_raw:int, hb_raw:int):
 
     resultado = preparar_datos(
@@ -213,7 +222,7 @@ def inicio(sexo: int, edad_continua: int, comuna_raw:int, hb_raw:int):
     )
 
     new_data_point_np = np.array([[resultado["sexo"], resultado["edad_continua"], resultado["edad_g1"], resultado["edad_g2"], resultado["edad_g3"], resultado["comuna_raw"], resultado["hb_raw"]]])
-    prediction_np = modelo5.predict(new_data_point_np)
+    prediction_np = clasificador_modelo5.predict(new_data_point_np)
 
     return {
         #"mensaje": resultado
@@ -222,7 +231,7 @@ def inicio(sexo: int, edad_continua: int, comuna_raw:int, hb_raw:int):
 
 
 
-@app.post("/prueba_seis")
+@app.post("/clasificador_prueba_seis")
 def inicio(sexo: int, edad_continua: int, comuna_raw:int, hb_raw:int):
 
     resultado = preparar_datos(
@@ -233,7 +242,7 @@ def inicio(sexo: int, edad_continua: int, comuna_raw:int, hb_raw:int):
     )
 
     new_data_point_np = np.array([[resultado["sexo"], resultado["edad_continua"], resultado["edad_g1"], resultado["edad_g2"], resultado["edad_g3"], resultado["comuna_raw"], resultado["hb_aa"], resultado["hb_cc"], resultado["hb_ss"], resultado["hb_ac"], resultado["hb_as"] , resultado["hb_sc"] ]])
-    prediction_np = modelo6.predict(new_data_point_np)
+    prediction_np = clasificador_modelo6.predict(new_data_point_np)
 
     return {
         #"mensaje": resultado
@@ -242,7 +251,7 @@ def inicio(sexo: int, edad_continua: int, comuna_raw:int, hb_raw:int):
 
 
 
-@app.post("/prueba_nueve")
+@app.post("/clasificador_prueba_nueve")
 def inicio(sexo: int, edad_continua: int, comuna_raw:int, hb_raw:int, g6pd_raw:int ):
     
     resultado = preparar_datos(
@@ -258,7 +267,7 @@ def inicio(sexo: int, edad_continua: int, comuna_raw:int, hb_raw:int, g6pd_raw:i
                                    resultado["comuna_raw"],
                                    resultado["hb_aa"], resultado["hb_cc"], resultado["hb_ss"], resultado["hb_ac"], resultado["hb_as"] , resultado["hb_sc"],
                                    resultado["g6pd_bb"], resultado["g6pd_ap_ap"], resultado["g6pd_am_am"], resultado["g6pd_b_ap"], resultado["g6pd_b_am"], resultado["g6pd_ap_am"], resultado["g6pd_b"], resultado["g6pd_ap"], resultado["g6pd_am"] ]])
-    prediction_np = modelo9.predict(new_data_point_np)
+    prediction_np = clasificador_modelo9.predict(new_data_point_np)
 
     return {
         #"mensaje": resultado
@@ -267,7 +276,7 @@ def inicio(sexo: int, edad_continua: int, comuna_raw:int, hb_raw:int, g6pd_raw:i
 
 
 
-@app.post("/prueba_doce")
+@app.post("/clasificador_prueba_doce")
 def inicio(sexo: int, edad_continua: int, comuna_raw:int, hb_raw:int, duffy_raw:int, g6pd_raw:int ):
 
     resultado = preparar_datos(
@@ -285,7 +294,7 @@ def inicio(sexo: int, edad_continua: int, comuna_raw:int, hb_raw:int, duffy_raw:
                                    resultado["hb_aa"], resultado["hb_cc"], resultado["hb_ss"], resultado["hb_ac"], resultado["hb_as"] , resultado["hb_sc"],
                                    resultado["g6pd_bb"], resultado["g6pd_ap_ap"], resultado["g6pd_am_am"], resultado["g6pd_b_ap"], resultado["g6pd_b_am"], resultado["g6pd_ap_am"], resultado["g6pd_b"], resultado["g6pd_ap"], resultado["g6pd_am"],
                                    resultado["duffy_fybes_fybes"], resultado["duffy_fya_fya"], resultado["duffy_fyb_fyb"], resultado["duffy_fya_fybes"], resultado["duffy_fyb_fybes"], resultado["duffy_fya_fyb"] ]])
-    prediction_np = modelo12.predict(new_data_point_np)
+    prediction_np = clasificador_modelo12.predict(new_data_point_np)
 
     return {
         #"mensaje": resultado
@@ -294,7 +303,7 @@ def inicio(sexo: int, edad_continua: int, comuna_raw:int, hb_raw:int, duffy_raw:
 
 
 
-@app.post("/prueba_quince")
+@app.post("/clasificador_prueba_quince")
 def inicio(sexo: int, edad_continua: int, comuna_raw:int, hb_raw:int, duffy_raw:int, btal29_raw:int, btal88_raw:int, g6pd_raw:int ):
 
     resultado = preparar_datos(
@@ -318,11 +327,135 @@ def inicio(sexo: int, edad_continua: int, comuna_raw:int, hb_raw:int, duffy_raw:
                                    resultado["btal88_raw"],
                                    resultado["btal29_aa"], resultado["btal29_ag"], resultado["btal29_gg"],
                                    resultado["btal88_cc"], resultado["btal88_ct"], resultado["btal88_tt"] ]])
-    prediction_np = modelo15.predict(new_data_point_np)
+    prediction_np = clasificador_modelo15.predict(new_data_point_np)
 
     return {
         #"mensaje": resultado
         "mensaje": prediction_np[0]
     }
 
+
+
+@app.post("/predictor_prueba_cinco")
+def inicio(sexo: int, edad_continua: int, comuna_raw:int, hb_raw:int):
+
+    resultado = preparar_datos(
+        sexo=sexo,
+        edad_continua=edad_continua,
+        comuna_raw=comuna_raw,
+        hb_raw=hb_raw,
+    )
+
+    new_data_point_np = np.array([[resultado["sexo"], resultado["edad_continua"], resultado["edad_g1"], resultado["edad_g2"], resultado["edad_g3"], resultado["comuna_raw"], resultado["hb_raw"]]])
+    prediction_np = predictor_modelo5.predict(new_data_point_np)
+
+    return {
+        #"mensaje": resultado
+        "mensaje": prediction_np[0]
+    }
+
+
+
+@app.post("/predictor_prueba_seis")
+def inicio(sexo: int, edad_continua: int, comuna_raw:int, hb_raw:int):
+
+    resultado = preparar_datos(
+        sexo=sexo,
+        edad_continua=edad_continua,
+        comuna_raw=comuna_raw,
+        hb_raw=hb_raw,
+    )
+
+    new_data_point_np = np.array([[resultado["sexo"], resultado["edad_continua"], resultado["edad_g1"], resultado["edad_g2"], resultado["edad_g3"], resultado["comuna_raw"], resultado["hb_aa"], resultado["hb_cc"], resultado["hb_ss"], resultado["hb_ac"], resultado["hb_as"] , resultado["hb_sc"] ]])
+    prediction_np = predictor_modelo6.predict(new_data_point_np)
+
+    return {
+        #"mensaje": resultado
+        "mensaje": prediction_np[0]
+    }
+
+
+
+@app.post("/predictor_prueba_nueve")
+def inicio(sexo: int, edad_continua: int, comuna_raw:int, hb_raw:int, g6pd_raw:int ):
+    
+    resultado = preparar_datos(
+        sexo=sexo,
+        edad_continua=edad_continua,
+        comuna_raw=comuna_raw,
+        hb_raw=hb_raw,
+        g6pd_raw=g6pd_raw
+    )
+
+    new_data_point_np = np.array([[resultado["sexo"],
+                                   resultado["edad_continua"], resultado["edad_g1"], resultado["edad_g2"], resultado["edad_g3"],
+                                   resultado["comuna_raw"],
+                                   resultado["hb_aa"], resultado["hb_cc"], resultado["hb_ss"], resultado["hb_ac"], resultado["hb_as"] , resultado["hb_sc"],
+                                   resultado["g6pd_bb"], resultado["g6pd_ap_ap"], resultado["g6pd_am_am"], resultado["g6pd_b_ap"], resultado["g6pd_b_am"], resultado["g6pd_ap_am"], resultado["g6pd_b"], resultado["g6pd_ap"], resultado["g6pd_am"] ]])
+    prediction_np = predictor_modelo9.predict(new_data_point_np)
+
+    return {
+        #"mensaje": resultado
+        "mensaje": prediction_np[0]
+    }
+
+
+
+@app.post("/predictor_prueba_doce")
+def inicio(sexo: int, edad_continua: int, comuna_raw:int, hb_raw:int, duffy_raw:int, g6pd_raw:int ):
+
+    resultado = preparar_datos(
+        sexo=sexo,
+        edad_continua=edad_continua,
+        comuna_raw=comuna_raw,
+        hb_raw=hb_raw,
+        g6pd_raw=g6pd_raw,
+        duffy_raw=duffy_raw
+    )
+
+    new_data_point_np = np.array([[resultado["sexo"],
+                                   resultado["edad_continua"], resultado["edad_g1"], resultado["edad_g2"], resultado["edad_g3"],
+                                   resultado["comuna_raw"],
+                                   resultado["hb_aa"], resultado["hb_cc"], resultado["hb_ss"], resultado["hb_ac"], resultado["hb_as"] , resultado["hb_sc"],
+                                   resultado["g6pd_bb"], resultado["g6pd_ap_ap"], resultado["g6pd_am_am"], resultado["g6pd_b_ap"], resultado["g6pd_b_am"], resultado["g6pd_ap_am"], resultado["g6pd_b"], resultado["g6pd_ap"], resultado["g6pd_am"],
+                                   resultado["duffy_fybes_fybes"], resultado["duffy_fya_fya"], resultado["duffy_fyb_fyb"], resultado["duffy_fya_fybes"], resultado["duffy_fyb_fybes"], resultado["duffy_fya_fyb"] ]])
+    prediction_np = predictor_modelo12.predict(new_data_point_np)
+
+    return {
+        #"mensaje": resultado
+        "mensaje": prediction_np[0]
+    }
+
+
+
+@app.post("/predictor_prueba_quince")
+def inicio(sexo: int, edad_continua: int, comuna_raw:int, hb_raw:int, duffy_raw:int, btal29_raw:int, btal88_raw:int, g6pd_raw:int ):
+
+    resultado = preparar_datos(
+        sexo=sexo,
+        edad_continua=edad_continua,
+        comuna_raw=comuna_raw,
+        hb_raw=hb_raw,
+        g6pd_raw=g6pd_raw,
+        duffy_raw=duffy_raw,
+        btal29_raw=btal29_raw,
+        btal88_raw=btal88_raw
+    )
+
+    new_data_point_np = np.array([[resultado["sexo"],
+                                   resultado["edad_continua"], resultado["edad_g1"], resultado["edad_g2"], resultado["edad_g3"],
+                                   resultado["comuna_raw"],
+                                   resultado["hb_aa"], resultado["hb_cc"], resultado["hb_ss"], resultado["hb_ac"], resultado["hb_as"] , resultado["hb_sc"],
+                                   resultado["g6pd_bb"], resultado["g6pd_ap_ap"], resultado["g6pd_am_am"], resultado["g6pd_b_ap"], resultado["g6pd_b_am"], resultado["g6pd_ap_am"], resultado["g6pd_b"], resultado["g6pd_ap"], resultado["g6pd_am"],
+                                   resultado["duffy_fybes_fybes"], resultado["duffy_fya_fya"], resultado["duffy_fyb_fyb"], resultado["duffy_fya_fybes"], resultado["duffy_fyb_fybes"], resultado["duffy_fya_fyb"],
+                                   resultado["btal29_raw"],
+                                   resultado["btal88_raw"],
+                                   resultado["btal29_aa"], resultado["btal29_ag"], resultado["btal29_gg"],
+                                   resultado["btal88_cc"], resultado["btal88_ct"], resultado["btal88_tt"] ]])
+    prediction_np = predictor_modelo15.predict(new_data_point_np)
+
+    return {
+        #"mensaje": resultado
+        "mensaje": prediction_np[0]
+    }
 
