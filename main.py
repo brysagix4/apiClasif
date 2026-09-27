@@ -8,16 +8,16 @@ app = FastAPI()
 
 clasificador_modelo5 = joblib.load("forest.joblib")
 clasificador_modelo6 = joblib.load("forest.joblib")
-clasificador_modelo9 = joblib.load("forest.joblib")
-clasificador_modelo12 = joblib.load("forest.joblib")
-clasificador_modelo15 = joblib.load("forest.joblib")
+clasificador_modelo9 = joblib.load("random_forest_model_clasif_30test_id9.joblib")
+clasificador_modelo12 = joblib.load("random_forest_model_clasif_30test_id12.joblib")
+clasificador_modelo15 = joblib.load("mlp_clasif_30test_id15.joblib")
 
 
 predictor_modelo5 = joblib.load("forest.joblib")
 predictor_modelo6 = joblib.load("forest.joblib")
-predictor_modelo9 = joblib.load("forest.joblib")
-predictor_modelo12 = joblib.load("forest.joblib")
-predictor_modelo15 = joblib.load("forest.joblib")
+predictor_modelo9 = joblib.load("boosting_30_predict_id_9.joblib")
+predictor_modelo12 = joblib.load("boosting_30_predict_id_12.joblib")
+predictor_modelo15 = joblib.load("boosting_30_predic_id_15.joblib")
 
 
 
