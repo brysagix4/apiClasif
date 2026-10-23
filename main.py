@@ -1,4 +1,4 @@
-#  py -3.13 -m uvicorn main:app --reload
+#python -m uvicorn main:app --reload
 
 from fastapi import FastAPI
 from pydantic import BaseModel
@@ -11,37 +11,26 @@ from pymongo import MongoClient
 client = MongoClient("mongodb+srv://brysagix1234:admin1234@cluster0.o9ii7lx.mongodb.net/?appName=Cluster0")
 db = client["uvProyectoOrquideas"]
 coleccion = db["nuevosClasificados"]
-
-
+coleccion2 = db["nuevasPredicciones"]
 
 
 
 app = FastAPI() 
 
-clasificador_modelo5 = joblib.load("forest.joblib")
-clasificador_modelo6 = joblib.load("random_forest_model_clasif_30test_id9.joblib")
 
+clasificador_modelo5 = joblib.load("forest.joblib")
+clasificador_modelo6 = joblib.load("forest.joblib")
 clasificador_modelo9 = joblib.load("random_forest_model_clasif_30test_id9.joblib")
 clasificador_modelo12 = joblib.load("random_forest_model_clasif_30test_id12.joblib")
 clasificador_modelo15 = joblib.load("mlp_clasif_30test_id15.joblib")
 
 
-
 predictor_modelo5 = joblib.load("forest.joblib")
 predictor_modelo6 = joblib.load("forest.joblib")
-predictor_modelo9 = joblib.load("forest.joblib")
-predictor_modelo12 = joblib.load("forest.joblib")
-predictor_modelo15 = joblib.load("forest.joblib")
-
-
-
-"""
-predictor_modelo5 = joblib.load("boosting_30_predict_id_9.joblib")
-predictor_modelo6 = joblib.load("boosting_30_predict_id_9.joblib")
 predictor_modelo9 = joblib.load("boosting_30_predict_id_9.joblib")
 predictor_modelo12 = joblib.load("boosting_30_predict_id_12.joblib")
 predictor_modelo15 = joblib.load("boosting_30_predic_id_15.joblib")
-"""
+
 
 
 # ==========================================
@@ -398,8 +387,6 @@ def inicio(sexo: int, edad_continua: int, comuna_raw:int, hb_raw:int, duffy_raw:
                                    resultado["hb_aa"], resultado["hb_cc"], resultado["hb_ss"], resultado["hb_ac"], resultado["hb_as"] , resultado["hb_sc"],
                                    resultado["g6pd_bb"], resultado["g6pd_ap_ap"], resultado["g6pd_am_am"], resultado["g6pd_b_ap"], resultado["g6pd_b_am"], resultado["g6pd_ap_am"], resultado["g6pd_b"], resultado["g6pd_ap"], resultado["g6pd_am"],
                                    resultado["duffy_fybes_fybes"], resultado["duffy_fya_fya"], resultado["duffy_fyb_fyb"], resultado["duffy_fya_fybes"], resultado["duffy_fyb_fybes"], resultado["duffy_fya_fyb"],
-                                   resultado["btal29_raw"],
-                                   resultado["btal88_raw"],
                                    resultado["btal29_aa"], resultado["btal29_ag"], resultado["btal29_gg"],
                                    resultado["btal88_cc"], resultado["btal88_ct"], resultado["btal88_tt"] ]])
     prediction_np = clasificador_modelo15.predict(new_data_point_np)
@@ -424,18 +411,6 @@ def inicio(sexo: int, edad_continua: int, comuna_raw:int, hb_raw:int, duffy_raw:
         #"mensaje": resultado
         "mensaje": prediction_np[0]
     }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -498,6 +473,18 @@ def inicio(sexo: int, edad_continua: int, comuna_raw:int, hb_raw:int, g6pd_raw:i
                                    resultado["g6pd_bb"], resultado["g6pd_ap_ap"], resultado["g6pd_am_am"], resultado["g6pd_b_ap"], resultado["g6pd_b_am"], resultado["g6pd_ap_am"], resultado["g6pd_b"], resultado["g6pd_ap"], resultado["g6pd_am"] ]])
     prediction_np = predictor_modelo9.predict(new_data_point_np)
 
+    nuevo_dato = {
+        "tipo_prueba":9,
+        "sexo": sexo,
+        "edad_continua": edad_continua,
+        "comuna_raw": comuna_raw,
+        "hb_raw": hb_raw,
+        "g6pd_raw": g6pd_raw,
+        "prediccion":  prediction_np[0]
+    }
+
+    resultado = coleccion2.insert_one(nuevo_dato)
+
     return {
         #"mensaje": resultado
         "mensaje": prediction_np[0]
@@ -524,6 +511,19 @@ def inicio(sexo: int, edad_continua: int, comuna_raw:int, hb_raw:int, duffy_raw:
                                    resultado["g6pd_bb"], resultado["g6pd_ap_ap"], resultado["g6pd_am_am"], resultado["g6pd_b_ap"], resultado["g6pd_b_am"], resultado["g6pd_ap_am"], resultado["g6pd_b"], resultado["g6pd_ap"], resultado["g6pd_am"],
                                    resultado["duffy_fybes_fybes"], resultado["duffy_fya_fya"], resultado["duffy_fyb_fyb"], resultado["duffy_fya_fybes"], resultado["duffy_fyb_fybes"], resultado["duffy_fya_fyb"] ]])
     prediction_np = predictor_modelo12.predict(new_data_point_np)
+
+    nuevo_dato = {
+        "tipo_prueba":12,
+        "sexo": sexo,
+        "edad_continua": edad_continua,
+        "comuna_raw": comuna_raw,
+        "hb_raw": hb_raw,
+        "g6pd_raw": g6pd_raw,
+        "duffy_raw": duffy_raw,
+        "prediccion":  prediction_np[0]
+    }
+
+    resultado = coleccion2.insert_one(nuevo_dato)
 
     return {
         #"mensaje": resultado
@@ -552,11 +552,28 @@ def inicio(sexo: int, edad_continua: int, comuna_raw:int, hb_raw:int, duffy_raw:
                                    resultado["hb_aa"], resultado["hb_cc"], resultado["hb_ss"], resultado["hb_ac"], resultado["hb_as"] , resultado["hb_sc"],
                                    resultado["g6pd_bb"], resultado["g6pd_ap_ap"], resultado["g6pd_am_am"], resultado["g6pd_b_ap"], resultado["g6pd_b_am"], resultado["g6pd_ap_am"], resultado["g6pd_b"], resultado["g6pd_ap"], resultado["g6pd_am"],
                                    resultado["duffy_fybes_fybes"], resultado["duffy_fya_fya"], resultado["duffy_fyb_fyb"], resultado["duffy_fya_fybes"], resultado["duffy_fyb_fybes"], resultado["duffy_fya_fyb"],
-                                   resultado["btal29_raw"],
-                                   resultado["btal88_raw"],
                                    resultado["btal29_aa"], resultado["btal29_ag"], resultado["btal29_gg"],
                                    resultado["btal88_cc"], resultado["btal88_ct"], resultado["btal88_tt"] ]])
     prediction_np = predictor_modelo15.predict(new_data_point_np)
+
+
+    nuevo_dato = {
+        "tipo_prueba":15,
+        "sexo": sexo,
+        "edad_continua": edad_continua,
+        "comuna_raw": comuna_raw,
+        "hb_raw": hb_raw,
+        "g6pd_raw": g6pd_raw,
+        "duffy_raw": duffy_raw,
+        "btal29_raw": btal29_raw,
+        "btal88_raw": btal88_raw,
+        "prediccion": prediction_np
+    }
+
+    resultado = coleccion2.insert_one(nuevo_dato)
+
+
+    
 
     return {
         #"mensaje": resultado
