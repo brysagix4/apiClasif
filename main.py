@@ -8,10 +8,10 @@ import numpy as np
 
 
 from pymongo import MongoClient
-client = MongoClient("mongodb+srv://brysagix1234:admin1234@cluster0.o9ii7lx.mongodb.net/?appName=Cluster0")
-db = client["uvProyectoOrquideas"]
-coleccion = db["nuevosClasificados"]
-coleccion2 = db["nuevasPredicciones"]
+client = MongoClient("mongodb+srv://*****@cluster0.o9ii7lx.mongodb.net/?appName=Cluster0")
+db = client[""]
+coleccion = db[""]
+coleccion2 = db[""]
 
 
 
